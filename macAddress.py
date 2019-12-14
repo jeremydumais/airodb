@@ -16,9 +16,11 @@ class MACAddress:
                 return False
 
         #Ensure that all characters is hexadecimal
-        HEXADECIMAL_CHARS = ['1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
-        for character in sanitizedMACAddress:
-            if character not in HEXADECIMAL_CHARS:
-                return False
+        HEXADECIMAL_CHARS = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+        for section in items:
+            for character in section:
+                if character not in HEXADECIMAL_CHARS:
+                    return False
+        
         return True
 

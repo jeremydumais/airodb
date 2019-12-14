@@ -1,3 +1,5 @@
+from macAddress import MACAddress
+
 class DumpConverter:
     def convertToJSON(self, dumpString):
         if dumpString.strip() == "":
@@ -7,9 +9,9 @@ class DumpConverter:
         items = dumpString.split(",")
         if len(items) != 15:
             return None
-
-        macAddress = items[0].strip()
-        if macAddress == "":
+        
+        bssID = items[0].strip()
+        if bssID == "" or not MACAddress.isValid(bssID):
             return None
 
         firstTimeSeen = items[1].strip()
@@ -20,5 +22,71 @@ class DumpConverter:
         if lastTimeSeen == "":
             return None
 
-        return "{}"        
+        channel = items[3].strip()
+        if channel == "" or not self.__isValidInt(channel):
+            return None
+
+        speed = items[4].strip()
+        if speed == "" or not self.__isValidInt(speed):
+            return None
+
+        privacy = items[5].strip()
+        if privacy == "":
+            return None
+
+        cipher = items[6].strip()
+        if cipher == "":
+            return None
+
+        authentication = items[7].strip()
+        if authentication == "":
+            return None
+
+        power = items[8].strip()
+        if power == "" or not self.__isValidInt(power):
+            return None
+
+        nbBeacons = items[9].strip()
+        if nbBeacons == "" or not self.__isValidInt(nbBeacons):
+            return None
+
+        nbIV = items[10].strip()
+        if nbIV == "" or not self.__isValidInt(nbIV):
+            return None
+
+        lanIP = items[11].strip()
+        if lanIP == "":
+            return None  
+
+        idLength = items[12].strip()
+        if idLength == "" or not self.__isValidInt(idLength):
+            return None  
     
+        essID = items[13].strip()
+        if essID == "":
+            return None  
+
+        retVal = {
+            "BSSID" : bssID,
+            "FirstTimeSeen": firstTimeSeen,
+            "LastTimeSeen": lastTimeSeen, 
+            "Channel": int(channel), 
+            "Speed": int(speed), 
+            "Privacy": privacy, 
+            "Cipher": cipher, 
+            "Authentification" : authentication, 
+            "Power" : int(power), 
+            "NbBeacons" : int(nbBeacons), 
+            "NbIV" : int(nbIV), 
+            "LANIP" : lanIP, 
+            "IDLength": int(idLength), 
+            "ESSIS" : essID
+        }    
+
+        return retVal
+    
+    def __isValidInt(self, numberStr):
+        try:
+            return int(numberStr), True
+        except ValueError:
+            return False
