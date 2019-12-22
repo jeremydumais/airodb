@@ -1,6 +1,11 @@
 from macAddress import MACAddress
 
 class DumpConverter:
+    def __init__(self, sessionName):
+        if sessionName == None or sessionName.strip() == "":
+            raise ValueError("sessionName")
+        self.sessionName = sessionName
+
     def convertToJSON(self, dumpString):
         if dumpString.strip() == "":
             return None
@@ -35,12 +40,8 @@ class DumpConverter:
             return None
 
         cipher = items[6].strip()
-        if cipher == "":
-            return None
 
         authentication = items[7].strip()
-        if authentication == "":
-            return None
 
         power = items[8].strip()
         if power == "" or not self.__isValidInt(power):
@@ -63,8 +64,6 @@ class DumpConverter:
             return None  
     
         essID = items[13].strip()
-        if essID == "":
-            return None  
 
         retVal = {
             "BSSID" : bssID,
@@ -80,7 +79,8 @@ class DumpConverter:
             "NbIV" : int(nbIV), 
             "LANIP" : lanIP, 
             "IDLength": int(idLength), 
-            "ESSIS" : essID
+            "ESSID" : essID,
+            "SessionName": self.sessionName,
         }    
 
         return retVal
