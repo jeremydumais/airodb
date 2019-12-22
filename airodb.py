@@ -25,7 +25,7 @@ def main():
      
      #Enter the main loop to process the dumps
      dumps = DumpLoader.Load("dump/dump.csv", sessionName)
-     #storage.insert(dumps)   
+     storage.insert(dumps)   
 
 
 def validateRequiredArgs(optionParser):

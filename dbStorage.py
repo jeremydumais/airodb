@@ -1,8 +1,11 @@
 from pymongo import MongoClient
 
 class DBStorage():
-    def __init__(self):
-      self._client = MongoClient()
+    def __init__(self, mongoClient=None):
+      if (mongoClient==None):
+        self._client = MongoClient()
+      else:
+        self._client = mongoClient
       self._db = self._client.airodb
       self.dumps = self._db.airodb_dumps
 
