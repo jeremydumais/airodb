@@ -29,10 +29,11 @@ class OptionParser:
                 break
         return isValid
 
-    def GetOptionValue(self, optionName):
+    def GetOptionValue(self, optionNameFirstFormat, optionNameSecondFormat = None):
         value = None
         for opt in self._options:
-            if (opt[0] == optionName):
+            if (opt[0] == optionNameFirstFormat or 
+            (optionNameSecondFormat != None and opt[0] == optionNameSecondFormat)):
                 value = opt[1]
                 break
         return value

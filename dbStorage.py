@@ -13,7 +13,6 @@ class DBStorage():
       self.dumps.insert_many(dumps)
 
     def isSessionNameAlreadyExist(self, sessionName):
-      print("")
-      #self.dumps.session
+      return (self.dumps.count_documents({"SessionName": sessionName}) > 0)
 
         

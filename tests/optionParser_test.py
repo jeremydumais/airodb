@@ -108,3 +108,16 @@ class TestOptionParserMethods(unittest.TestCase):
     def test_IsOptionExistAndValueIsNotEmpty_TestWithInterfaceAndEmptyValueLongFormat_ReturnFalse(self):
         parser = OptionParser([("--session", ""), ("--interface", "")])
         self.assertFalse(parser.IsOptionExistAndValueIsNotEmpty("--interface"))
+
+    def test_GetOptionValueOverload_TestWithSessionLongFormatTwoOpts_ReturnTrue(self):
+        parser = OptionParser([("--session", "test"), ("--interface", "eth0")])
+        self.assertEqual("test", parser.GetOptionValue("-s", "--session"))
+
+    def test_GetOptionValueOverload_TestWithSessionShortFormatTwoOpts_ReturnTrue(self):
+        parser = OptionParser([("-s", "test"), ("--interface", "eth0")])
+        self.assertEqual("test", parser.GetOptionValue("-s", "--session"))
+
+    def test_GetOptionValueOverload_TestWithSeShortFormatTwoOpts_ReturnFalse(self):
+        parser = OptionParser([("-s", "test"), ("--interface", "eth0")])
+        self.assertEqual(None, parser.GetOptionValue("-se", "--session"))
+    
