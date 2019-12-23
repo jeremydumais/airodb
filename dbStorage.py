@@ -16,6 +16,14 @@ class DBStorage():
       self.dumps.insert_many(dumps)
 
     def isSessionNameAlreadyExist(self, sessionName):
+      if (not isinstance(sessionName, str)):
+        raise TypeError("sessionName")
+      if (sessionName.strip() == ""):
+        raise ValueError("sessionName")
       return (self.dumps.count_documents({"SessionName": sessionName}) > 0)
 
-        
+    def isEntryExist(self, entry):
+      return (self.dumps.count_documents({"SessionName": entry["SessionName"], 
+      "BSSID": entry["BSSID"], 
+      "FirstTimeSeen": entry["FirstTimeSeen"], 
+      "LastTimeSeen": entry["LastTimeSeen"]}) > 0)
