@@ -10,7 +10,7 @@ class DumpConverter:
         if dumpString.strip() == "":
             return None
         
-        #Split the dump on the comma symbol
+        #Split the dump by commas
         items = dumpString.split(",")
         if len(items) != 15:
             return None

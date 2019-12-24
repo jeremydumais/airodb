@@ -1,0 +1,8 @@
+*.pyc
+*.pyo
+
+# airodump-ng temporary folder
+dump
+
+# VS Code related files
+.vscode
