@@ -1,9 +1,9 @@
-from mongomock import MongoClient
-from dbStorage import DBStorage
 import unittest
 from os import path
 import sys
-sys.path.append(path.join(path.dirname(__file__), '..'))
+sys.path.append(path.join(path.dirname(path.dirname(path.abspath(__file__))), 'airodb'))
+from mongomock import MongoClient
+from dbStorage import DBStorage
 
 class TestDBStorageMethods_OneEntryFixture(unittest.TestCase):
     def setUp(self):

@@ -1,7 +1,7 @@
 import unittest
 from os import path
 import sys
-sys.path.append(path.join(path.dirname(__file__), '..'))
+sys.path.append(path.join(path.dirname(path.dirname(path.abspath(__file__))), 'airodb'))
 from optionParser import OptionParser
 
 class TestOptionParserMethods(unittest.TestCase):

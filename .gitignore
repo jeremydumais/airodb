@@ -6,3 +6,8 @@ dump
 
 # VS Code related files
 .vscode
+
+airodb.egg-info
+build
+dist
+.eggs

@@ -2,7 +2,7 @@ import unittest
 import json
 from os import path
 import sys
-sys.path.append(path.join(path.dirname(__file__), '..'))
+sys.path.append(path.join(path.dirname(path.dirname(path.abspath(__file__))), 'airodb'))
 from dumpConverter import DumpConverter
 
 class TestDumpConverterMethods(unittest.TestCase):
