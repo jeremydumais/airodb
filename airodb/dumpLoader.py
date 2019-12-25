@@ -4,7 +4,7 @@ from colorama import Fore, Style
 
 class DumpLoader:
     @staticmethod
-    def Load(filename, sessionName):
+    def Load(filename, sessionName, debug=False):
         if path.exists(filename):
             fileHandler = open(filename, "r")
             dumpConverter = DumpConverter(sessionName)
@@ -20,7 +20,8 @@ class DumpLoader:
                     if dumpObject != None:
                         dumps.append(dumpObject)
                     else:
-                        print(f"{Fore.YELLOW}The line {line} has been ignored due to bad format.{Style.RESET_ALL}")
+                        if (debug):
+                            print(f"{Fore.YELLOW}The line {line} has been ignored due to bad format.{Style.RESET_ALL}")
                 lineCount += 1
             return dumps
         else:
