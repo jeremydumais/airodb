@@ -93,8 +93,47 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
             "LastTimeSeen": "2019-10-30 14:31:56", 
             "SessionName": "MySession1",
         }
-
         self.assertTrue(dbStorage.isEntryExist(expected))
+    
+    def test_isEntryExist_TestWithDifferentBSSID_ReturnFalse(self):
+        dbStorage = DBStorage(self.mockClient)
+        expected = {
+            "BSSID" : "64:70:02:63:0E:88",
+            "FirstTimeSeen": "2019-10-30 14:31:34",
+            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "SessionName": "MySession1",
+        }
+        self.assertFalse(dbStorage.isEntryExist(expected))
+
+    def test_isEntryExist_TestWithDifferentFTS_ReturnFalse(self):
+        dbStorage = DBStorage(self.mockClient)
+        expected = {
+            "BSSID" : "64:70:02:63:0E:87",
+            "FirstTimeSeen": "2019-10-30 14:31:36",
+            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "SessionName": "MySession1",
+        }
+        self.assertFalse(dbStorage.isEntryExist(expected))
+
+    def test_isEntryExist_TestWithDifferentLTS_ReturnFalse(self):
+        dbStorage = DBStorage(self.mockClient)
+        expected = {
+            "BSSID" : "64:70:02:63:0E:87",
+            "FirstTimeSeen": "2019-10-30 14:31:34",
+            "LastTimeSeen": "2019-10-30 14:31:57", 
+            "SessionName": "MySession1",
+        }
+        self.assertFalse(dbStorage.isEntryExist(expected))
+
+    def test_isEntryExist_TestWithDifferentSessionName_ReturnFalse(self):
+        dbStorage = DBStorage(self.mockClient)
+        expected = {
+            "BSSID" : "64:70:02:63:0E:87",
+            "FirstTimeSeen": "2019-10-30 14:31:34",
+            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "SessionName": "MySession2",
+        }
+        self.assertFalse(dbStorage.isEntryExist(expected))
 
 class TestDBStorageMethods(unittest.TestCase):
     def test_isSessionNameAlreadyExist_TestWithEmptyStringSessionNoEntries_ThrowValueError(self):

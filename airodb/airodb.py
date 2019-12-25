@@ -1,9 +1,16 @@
 from dumpLoader import DumpLoader
 from optionParser import OptionParser
 from dbStorage import DBStorage
+import distutils.spawn
+import subprocess
 import getopt
 import sys
 from colorama import Fore, Style
+import psutil
+import signal
+import time
+from datetime import datetime
+import json
 
 def main():
      try:
@@ -16,16 +23,36 @@ def main():
      validateRequiredArgs(optionParser)
      sessionName = optionParser.GetOptionValue("-s", "--session")
      interfaceName = optionParser.GetOptionValue("-i", "--interface")
+     ensureAirodumpIsInstalled()
+     ensureInterfaceExist(interfaceName)
      storage = DBStorage()
-     #Check if that session name already exist
-     if (storage.isSessionNameAlreadyExist(sessionName)):
-          print(f"{Fore.RED}The session {sessionName} already exist!{Style.RESET_ALL}") 
-          exit(2)
-     #Launch the airodump process
-     
-     #Enter the main loop to process the dumps
-     dumps = DumpLoader.Load("dump/dump.csv", sessionName)
-     storage.insert(dumps)   
+     ensureSessionNameDoesNotExist(storage, sessionName)
+
+     #Launch the airodump-ng process
+     filename = "dump-"+datetime.now().strftime("%Y%m%d%H%M%S")
+     airodumpCommand = ("sudo airodump-ng "+interfaceName+
+          " --output-format csv --write-interval 10 --manufacturer --uptime --write "+
+          filename+" > /dev/null 2>&1")
+     try:
+          process = subprocess.Popen(airodumpCommand, shell=True, stdout=subprocess.PIPE)
+          timeElapsed = 0
+          #Enter the main loop to process the dumps
+          while True:
+               time.sleep(0.1)
+               timeElapsed = timeElapsed + 1
+               if (timeElapsed > 50):
+                    dumps = DumpLoader.Load(filename+"-01.csv", sessionName)
+                    dumpsToAdd = []
+                    #Check if the dump already exist
+                    for dump in dumps:
+                         if (storage.isEntryExist(dump) == False):
+                              dumpsToAdd.append(dump)
+                              print("New dump: " + json.dumps(dump))
+                    if (len(dumpsToAdd) > 0):
+                         storage.insert(dumpsToAdd)   
+                    timeElapsed = 0
+     except KeyboardInterrupt:
+          process.send_signal(signal.SIGINT)
 
 
 def validateRequiredArgs(optionParser):
@@ -48,8 +75,6 @@ def validateRequiredArgs(optionParser):
           displayUsage()
           sys.exit(2)
 
-#ParseOptionClass
-
 def displayUsage():
      print("Usage: airodb --session <sessionName> --interface <interfaceName>")
      print("  -s | --session <sessionName>             = The session name that will be save in the database.")
@@ -65,6 +90,25 @@ def displayVersion():
 
 def getVersion():
      return "0.9.0"
+
+def ensureAirodumpIsInstalled():
+     airodumpBinaryPath = distutils.spawn.find_executable("airodump-ng")
+     if (airodumpBinaryPath == None):
+          print(f"{Fore.RED}The airodump-ng doesn't seem to be installed!{Style.RESET_ALL}") 
+          print("Please refer to https://www.aircrack-ng.org/install.html for the installation instructions.")
+          exit(2)
+
+def ensureInterfaceExist(interfaceName):
+     interfaces = psutil.net_if_addrs()
+     if (interfaceName not in interfaces):
+          print(f"{Fore.RED}The interface {interfaceName} doesn't seem to exist!{Style.RESET_ALL}") 
+          print("Please confirm that the interface is detected and that it is configured in monitor mode.")
+          exit(2)
+
+def ensureSessionNameDoesNotExist(storage, sessionName):
+     if (storage.isSessionNameAlreadyExist(sessionName)):
+          print(f"{Fore.RED}The session {sessionName} already exist!{Style.RESET_ALL}") 
+          exit(2)
 
 if __name__ == '__main__':
      main()

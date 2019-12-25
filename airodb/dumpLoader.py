@@ -13,6 +13,9 @@ class DumpLoader:
             lineCount = 0
             for line in fileHandler:
                 if lineCount > 1:
+                    #Stop before the client section. Only keep AP's
+                    if (line.strip()==""):
+                        break
                     dumpObject = dumpConverter.convertToJSON(line)
                     if dumpObject != None:
                         dumps.append(dumpObject)
