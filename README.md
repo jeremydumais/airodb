@@ -86,7 +86,3 @@ ifconfig wlxa0ab1b3b52a2 up
 | -k, --keepdump | Do not delete the dump file when the application exit. |
 | -h, --help | Display the help and exit. |
 | --version | Display version information and exit. |
-
-#
-
-*The logo are a construction from images made by Freepik and Smashicons from www.flaticon.com*
