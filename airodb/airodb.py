@@ -108,7 +108,7 @@ def displayVersion():
      print("https://github.com/jeremydumais/airodb")
 
 def getVersion():
-     return "0.9.0"
+     return "1.0.0"
 
 def ensureAirodumpIsInstalled():
      print("Looking for airodump-ng binary...            ", end=" ", flush=True)
