@@ -5,6 +5,7 @@ import sys
 sys.path.append(path.join(path.dirname(path.dirname(path.abspath(__file__))), 'airodb'))
 from dumpConverter import DumpConverter
 
+
 class TestDumpConverterMethods(unittest.TestCase):
     def test_convertToJSON_TestWithEmptyDump_ReturnNone(self):
         converter = DumpConverter("MySession")
@@ -13,11 +14,11 @@ class TestDumpConverterMethods(unittest.TestCase):
     def test_convertToJSON_TestWithWhiteSpaceDump_ReturnNone(self):
         converter = DumpConverter("MySession")
         self.assertEqual(None, converter.convertToJSON("   "))
-    
+
     def test_convertToJSON_TestWithEmptyFieldsButValidStructure_ReturnNone(self):
         converter = DumpConverter("MySession")
         self.assertEqual(None, converter.convertToJSON(",,,,,,,,,,,,,,"))
-    
+
     def test_convertToJSON_TestWithOnlyFirstFieldButValidStructure_ReturnNone(self):
         converter = DumpConverter("MySession")
         self.assertEqual(None, converter.convertToJSON("64:70:02:63:0E:86,,,,,,,,,,,,,,"))
@@ -69,20 +70,20 @@ class TestDumpConverterMethods(unittest.TestCase):
     def test_convertToJSON_TestWithOnly13FirstFieldsButValidStructure_ReturnValid(self):
         converter = DumpConverter("MySession")
         expected = {
-            "BSSID" : "64:70:02:63:0E:86",
+            "BSSID": "64:70:02:63:0E:86",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
-            "Channel": 6, 
-            "Speed": 54, 
-            "Privacy": "WPA2", 
-            "Cipher": "CCMP TKIP", 
-            "Authentification" : "PSK", 
-            "Power" : -80, 
-            "NbBeacons" : 2, 
-            "NbIV" : 0, 
-            "LANIP" : "0.0.0.0", 
-            "IDLength": 0, 
-            "ESSID" : "",
+            "LastTimeSeen": "2019-10-30 14:31:56",
+            "Channel": 6,
+            "Speed": 54,
+            "Privacy": "WPA2",
+            "Cipher": "CCMP TKIP",
+            "Authentification": "PSK",
+            "Power": -80,
+            "NbBeacons": 2,
+            "NbIV": 0,
+            "LANIP": "0.0.0.0",
+            "IDLength": 0,
+            "ESSID": "",
             "SessionName": "MySession",
         }
         actual = converter.convertToJSON("64:70:02:63:0E:86, 2019-10-30 14:31:34, 2019-10-30 14:31:56, 6, 54, WPA2, CCMP TKIP, PSK, -80, 2, 0, 0.0.0.0, 0,,")
@@ -91,20 +92,20 @@ class TestDumpConverterMethods(unittest.TestCase):
     def test_convertToJSON_TestWithComplete14FieldsValidStructure_ReturnValid(self):
         converter = DumpConverter("MySession")
         expected = {
-            "BSSID" : "64:70:02:63:0E:86",
+            "BSSID": "64:70:02:63:0E:86",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
-            "Channel": 6, 
-            "Speed": 54, 
-            "Privacy": "WPA2", 
-            "Cipher": "CCMP TKIP", 
-            "Authentification" : "PSK", 
-            "Power" : -80, 
-            "NbBeacons" : 2, 
-            "NbIV" : 0, 
-            "LANIP" : "0.0.0.0", 
-            "IDLength": 6, 
-            "ESSID" : "TESTID",
+            "LastTimeSeen": "2019-10-30 14:31:56",
+            "Channel": 6,
+            "Speed": 54,
+            "Privacy": "WPA2",
+            "Cipher": "CCMP TKIP",
+            "Authentification": "PSK",
+            "Power": -80,
+            "NbBeacons": 2,
+            "NbIV": 0,
+            "LANIP": "0.0.0.0",
+            "IDLength": 6,
+            "ESSID": "TESTID",
             "SessionName": "MySession",
         }
         actual = converter.convertToJSON("64:70:02:63:0E:86, 2019-10-30 14:31:34, 2019-10-30 14:31:56, 6, 54, WPA2, CCMP TKIP, PSK, -80, 2, 0, 0.0.0.0, 6, TESTID,")
@@ -121,19 +122,19 @@ class TestDumpConverterMethods(unittest.TestCase):
     def test_convertToJSON_TestPowerNotInt_ReturnNone(self):
         converter = DumpConverter("MySession")
         self.assertEqual(None, converter.convertToJSON("64:70:02:63:0E:86, 2019-10-30 14:31:34, 2019-10-30 14:31:56, 6, 54, WPA2, CCMP TKIP, PSK, -8l0, 2, 0, 0.0.0.0, 6, TESTID,"))
-    
+
     def test_convertToJSON_TestNbBeaconsNotInt_ReturnNone(self):
         converter = DumpConverter("MySession")
         self.assertEqual(None, converter.convertToJSON("64:70:02:63:0E:86, 2019-10-30 14:31:34, 2019-10-30 14:31:56, 6, 54, WPA2, CCMP TKIP, PSK, -80, 2a, 0, 0.0.0.0, 6, TESTID,"))
-    
+
     def test_convertToJSON_TestNbIVNotInt_ReturnNone(self):
         converter = DumpConverter("MySession")
         self.assertEqual(None, converter.convertToJSON("64:70:02:63:0E:86, 2019-10-30 14:31:34, 2019-10-30 14:31:56, 6, 54, WPA2, CCMP TKIP, PSK, -80, 2, 0a, 0.0.0.0, 6, TESTID,"))
-    
+
     def test_convertToJSON_TestIDLengthNotInt_ReturnNone(self):
         converter = DumpConverter("MySession")
         self.assertEqual(None, converter.convertToJSON("64:70:02:63:0E:86, 2019-10-30 14:31:34, 2019-10-30 14:31:56, 6, 54, WPA2, CCMP TKIP, PSK, -80, 2, 0, 0.0.0.0, 6a, TESTID,"))
-    
+
     def test_convertToJSON_TestEmptyStringSessionName_ReturnNone(self):
         try:
             converter = DumpConverter("")
@@ -146,7 +147,7 @@ class TestDumpConverterMethods(unittest.TestCase):
             converter = DumpConverter(None)
             raise AssertionError("Constructor should have failed")
         except ValueError:
-            pass    
+            pass
 
     def test_convertToJSON_TestWhiteSpacesSessionName_ReturnNone(self):
         try:
@@ -154,6 +155,7 @@ class TestDumpConverterMethods(unittest.TestCase):
             raise AssertionError("Constructor should have failed")
         except ValueError:
             pass
+
 
 if __name__ == '__main__':
     unittest.main()

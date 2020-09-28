@@ -1,9 +1,9 @@
 class OptionParser:
     def __init__(self, options):
-        #Ensute that options is a List
+        # Ensure that options is a List
         if (not isinstance(options, list)):
             raise TypeError("options")
-        #Ensure list elements are tuples
+        # Ensure list elements are tuples
         for opt in options:
             if (not isinstance(opt, tuple)):
                 raise TypeError("option")
@@ -29,11 +29,11 @@ class OptionParser:
                 break
         return isValid
 
-    def GetOptionValue(self, optionNameFirstFormat, optionNameSecondFormat = None):
+    def GetOptionValue(self, optionNameFirstFormat, optionNameSecondFormat=None):
         value = None
         for opt in self._options:
-            if (opt[0] == optionNameFirstFormat or 
-            (optionNameSecondFormat != None and opt[0] == optionNameSecondFormat)):
+            if (opt[0] == optionNameFirstFormat or
+               (optionNameSecondFormat is not None and opt[0] == optionNameSecondFormat)):
                 value = opt[1]
                 break
         return value

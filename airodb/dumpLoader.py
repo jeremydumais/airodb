@@ -2,6 +2,7 @@ from os import path
 from dumpConverter import DumpConverter
 from colorama import Fore, Style
 
+
 class DumpLoader:
     @staticmethod
     def Load(filename, sessionName, debug=False):
@@ -9,15 +10,15 @@ class DumpLoader:
             fileHandler = open(filename, "r")
             dumpConverter = DumpConverter(sessionName)
             dumps = []
-            #Ignore the first line (empty) and the second one (header)
+            # Ignore the first line (empty) and the second one (header)
             lineCount = 0
             for line in fileHandler:
                 if lineCount > 1:
-                    #Stop before the client section. Only keep AP's
-                    if (line.strip()==""):
+                    # Stop before the client section. Only keep AP's
+                    if (line.strip() == ""):
                         break
                     dumpObject = dumpConverter.convertToJSON(line)
-                    if dumpObject != None:
+                    if dumpObject is not None:
                         dumps.append(dumpObject)
                     else:
                         if (debug):
@@ -27,4 +28,3 @@ class DumpLoader:
         else:
             print("The file " + filename + " doesn't exist.")
             return None
-            

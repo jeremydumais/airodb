@@ -1,20 +1,21 @@
 from macAddress import MACAddress
 
+
 class DumpConverter:
     def __init__(self, sessionName):
-        if sessionName == None or sessionName.strip() == "":
+        if sessionName is None or sessionName.strip() == "":
             raise ValueError("sessionName")
         self.sessionName = sessionName
 
     def convertToJSON(self, dumpString):
         if dumpString.strip() == "":
             return None
-        
-        #Split the dump by commas
+
+        # Split the dump by commas
         items = dumpString.split(",")
         if len(items) != 15:
             return None
-        
+
         bssID = items[0].strip()
         if bssID == "" or not MACAddress.isValid(bssID):
             return None
@@ -57,34 +58,34 @@ class DumpConverter:
 
         lanIP = items[11].strip()
         if lanIP == "":
-            return None  
+            return None
 
         idLength = items[12].strip()
         if idLength == "" or not self.__isValidInt(idLength):
-            return None  
-    
+            return None
+
         essID = items[13].strip()
 
         retVal = {
-            "BSSID" : bssID,
+            "BSSID": bssID,
             "FirstTimeSeen": firstTimeSeen,
-            "LastTimeSeen": lastTimeSeen, 
-            "Channel": int(channel), 
-            "Speed": int(speed), 
-            "Privacy": privacy, 
-            "Cipher": cipher, 
-            "Authentification" : authentication, 
-            "Power" : int(power), 
-            "NbBeacons" : int(nbBeacons), 
-            "NbIV" : int(nbIV), 
-            "LANIP" : lanIP, 
-            "IDLength": int(idLength), 
-            "ESSID" : essID,
+            "LastTimeSeen": lastTimeSeen,
+            "Channel": int(channel),
+            "Speed": int(speed),
+            "Privacy": privacy,
+            "Cipher": cipher,
+            "Authentification": authentication,
+            "Power": int(power),
+            "NbBeacons": int(nbBeacons),
+            "NbIV": int(nbIV),
+            "LANIP": lanIP,
+            "IDLength": int(idLength),
+            "ESSID": essID,
             "SessionName": self.sessionName,
-        }    
+        }
 
         return retVal
-    
+
     def __isValidInt(self, numberStr):
         try:
             return int(numberStr), True
