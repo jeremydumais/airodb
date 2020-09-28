@@ -11,3 +11,6 @@ airodb.egg-info
 build
 dist
 .eggs
+
+.coverage
+htmlcov

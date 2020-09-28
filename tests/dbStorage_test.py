@@ -5,13 +5,14 @@ sys.path.append(path.join(path.dirname(path.dirname(path.abspath(__file__))), 'a
 from mongomock import MongoClient
 from dbStorage import DBStorage
 
+
 class TestDBStorageMethods_OneEntryFixture(unittest.TestCase):
     def setUp(self):
         self.mockClient = MongoClient()
         entries = [{
-            "BSSID" : "64:70:02:63:0E:86",
+            "BSSID": "64:70:02:63:0E:86",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "LastTimeSeen": "2019-10-30 14:31:56",
             "SessionName": "MySession",
         }]
         self.mockClient.airodb.airodb_dumps.insert_many(entries)
@@ -21,9 +22,9 @@ class TestDBStorageMethods_OneEntryFixture(unittest.TestCase):
 
     def test_insert_TestOneDocumentAdded_Return1(self):
         newDocument = [{
-            "BSSID" : "64:70:02:63:1E:86",
+            "BSSID": "64:70:02:63:1E:86",
             "FirstTimeSeen": "2019-10-30 14:32:34",
-            "LastTimeSeen": "2019-10-30 14:32:56", 
+            "LastTimeSeen": "2019-10-30 14:32:56",
             "SessionName": "MySession",
         }]
         dbStorage = DBStorage(self.mockClient)
@@ -59,14 +60,14 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
 
     def test_insert_TestTwoDocumentAdded_Return2(self):
         newDocuments = [{
-            "BSSID" : "64:70:02:63:1E:86",
+            "BSSID": "64:70:02:63:1E:86",
             "FirstTimeSeen": "2019-10-30 14:32:34",
-            "LastTimeSeen": "2019-10-30 14:32:56", 
+            "LastTimeSeen": "2019-10-30 14:32:56",
             "SessionName": "MySession",
         }, {
-            "BSSID" : "64:70:02:63:2E:86",
+            "BSSID": "64:70:02:63:2E:86",
             "FirstTimeSeen": "2019-10-30 14:34:34",
-            "LastTimeSeen": "2019-10-30 14:34:56", 
+            "LastTimeSeen": "2019-10-30 14:34:56",
             "SessionName": "MySession",
         }]
         dbStorage = DBStorage(self.mockClient)
@@ -75,9 +76,9 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
 
     def test_insert_TestOneDocumentAndCheckSessionName_ReturnValid(self):
         newDocument = [{
-            "BSSID" : "64:70:02:63:1E:86",
+            "BSSID": "64:70:02:63:1E:86",
             "FirstTimeSeen": "2019-10-30 14:32:34",
-            "LastTimeSeen": "2019-10-30 14:32:56", 
+            "LastTimeSeen": "2019-10-30 14:32:56",
             "SessionName": "MySessionTest",
         }]
         dbStorage = DBStorage(self.mockClient)
@@ -88,9 +89,9 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
     def test_isEntryExist_TestWithExisting_ReturnTrue(self):
         dbStorage = DBStorage(self.mockClient)
         expected = {
-            "BSSID" : "64:70:02:63:0E:87",
+            "BSSID": "64:70:02:63:0E:87",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "LastTimeSeen": "2019-10-30 14:31:56",
             "SessionName": "MySession1",
         }
         self.assertTrue(dbStorage.isEntryExist(expected))
@@ -98,9 +99,9 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
     def test_isEntryExist_TestWithDifferentBSSID_ReturnFalse(self):
         dbStorage = DBStorage(self.mockClient)
         expected = {
-            "BSSID" : "64:70:02:63:0E:88",
+            "BSSID": "64:70:02:63:0E:88",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "LastTimeSeen": "2019-10-30 14:31:56",
             "SessionName": "MySession1",
         }
         self.assertFalse(dbStorage.isEntryExist(expected))
@@ -108,9 +109,9 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
     def test_isEntryExist_TestWithDifferentFTS_ReturnFalse(self):
         dbStorage = DBStorage(self.mockClient)
         expected = {
-            "BSSID" : "64:70:02:63:0E:87",
+            "BSSID": "64:70:02:63:0E:87",
             "FirstTimeSeen": "2019-10-30 14:31:36",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "LastTimeSeen": "2019-10-30 14:31:56",
             "SessionName": "MySession1",
         }
         self.assertFalse(dbStorage.isEntryExist(expected))
@@ -118,9 +119,9 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
     def test_isEntryExist_TestWithDifferentLTS_ReturnFalse(self):
         dbStorage = DBStorage(self.mockClient)
         expected = {
-            "BSSID" : "64:70:02:63:0E:87",
+            "BSSID": "64:70:02:63:0E:87",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:57", 
+            "LastTimeSeen": "2019-10-30 14:31:57",
             "SessionName": "MySession1",
         }
         self.assertFalse(dbStorage.isEntryExist(expected))
@@ -128,9 +129,9 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
     def test_isEntryExist_TestWithDifferentSessionName_ReturnFalse(self):
         dbStorage = DBStorage(self.mockClient)
         expected = {
-            "BSSID" : "64:70:02:63:0E:87",
+            "BSSID": "64:70:02:63:0E:87",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "LastTimeSeen": "2019-10-30 14:31:56",
             "SessionName": "MySession2",
         }
         self.assertFalse(dbStorage.isEntryExist(expected))
@@ -143,7 +144,7 @@ class TestDBStorageMethods(unittest.TestCase):
             storage.isSessionNameAlreadyExist("")
             raise AssertionError("Method should have failed")
         except ValueError:
-            pass   
+            pass
 
     def test_isSessionNameAlreadyExist_TestWithWhiteSpacesStringSessionNoEntries_ThrowValueError(self):
         mockClient = MongoClient()
@@ -152,7 +153,7 @@ class TestDBStorageMethods(unittest.TestCase):
             storage.isSessionNameAlreadyExist("   ")
             raise AssertionError("Method should have failed")
         except ValueError:
-            pass 
+            pass
 
     def test_isSessionNameAlreadyExist_TestWithNoneSessionNoEntries_ThrowTypeError(self):
         mockClient = MongoClient()
@@ -161,7 +162,7 @@ class TestDBStorageMethods(unittest.TestCase):
             storage.isSessionNameAlreadyExist(None)
             raise AssertionError("Method should have failed")
         except TypeError:
-            pass 
+            pass
 
     def test_isSessionNameAlreadyExist_TestWithIntSessionNoEntries_ThrowTypeError(self):
         mockClient = MongoClient()
@@ -170,7 +171,7 @@ class TestDBStorageMethods(unittest.TestCase):
             storage.isSessionNameAlreadyExist(12)
             raise AssertionError("Method should have failed")
         except TypeError:
-            pass 
+            pass
 
     def test_isSessionNameAlreadyExist_TestWithEmptyListSessionNoEntries_ThrowTypeError(self):
         mockClient = MongoClient()
@@ -179,4 +180,4 @@ class TestDBStorageMethods(unittest.TestCase):
             storage.isSessionNameAlreadyExist([])
             raise AssertionError("Method should have failed")
         except TypeError:
-            pass 
+            pass
