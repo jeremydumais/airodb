@@ -4,6 +4,7 @@ import sys
 sys.path.append(path.join(path.dirname(path.dirname(path.abspath(__file__))), 'airodb'))
 from macAddress import MACAddress
 
+
 class TestMACAddressMethods(unittest.TestCase):
     def test_isValid_TestWithEmptyMAC_ReturnFalse(self):
         self.assertFalse(MACAddress.isValid(""))
@@ -28,6 +29,7 @@ class TestMACAddressMethods(unittest.TestCase):
 
     def test_isValid_TestWithOneCharMissingMAC_ReturnFalse(self):
         self.assertFalse(MACAddress.isValid("64:7:02:63:0E:86"))
+
 
 if __name__ == '__main__':
     unittest.main()

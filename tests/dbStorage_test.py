@@ -33,24 +33,25 @@ class TestDBStorageMethods_OneEntryFixture(unittest.TestCase):
 
     def test_isSessionNameAlreadyExist_TestWithNonExistantSession_ReturnFalse(self):
         dbStorage = DBStorage(self.mockClient)
-        self.assertFalse(dbStorage.isSessionNameAlreadyExist("test")) 
+        self.assertFalse(dbStorage.isSessionNameAlreadyExist("test"))
 
     def test_isSessionNameAlreadyExist_TestWithExistantSession_ReturnTrue(self):
         dbStorage = DBStorage(self.mockClient)
-        self.assertTrue(dbStorage.isSessionNameAlreadyExist("MySession")) 
+        self.assertTrue(dbStorage.isSessionNameAlreadyExist("MySession"))
+
 
 class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
     def setUp(self):
         self.mockClient = MongoClient()
         entries = [{
-            "BSSID" : "64:70:02:63:0E:86",
+            "BSSID": "64:70:02:63:0E:86",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "LastTimeSeen": "2019-10-30 14:31:56",
             "SessionName": "MySession",
         }, {
-            "BSSID" : "64:70:02:63:0E:87",
+            "BSSID": "64:70:02:63:0E:87",
             "FirstTimeSeen": "2019-10-30 14:31:34",
-            "LastTimeSeen": "2019-10-30 14:31:56", 
+            "LastTimeSeen": "2019-10-30 14:31:56",
             "SessionName": "MySession1",
         }]
         self.mockClient.airodb.airodb_dumps.insert_many(entries)
@@ -95,7 +96,7 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
             "SessionName": "MySession1",
         }
         self.assertTrue(dbStorage.isEntryExist(expected))
-    
+
     def test_isEntryExist_TestWithDifferentBSSID_ReturnFalse(self):
         dbStorage = DBStorage(self.mockClient)
         expected = {
@@ -135,6 +136,7 @@ class TestDBStorageMethods_TwoEntriesFixture(unittest.TestCase):
             "SessionName": "MySession2",
         }
         self.assertFalse(dbStorage.isEntryExist(expected))
+
 
 class TestDBStorageMethods(unittest.TestCase):
     def test_isSessionNameAlreadyExist_TestWithEmptyStringSessionNoEntries_ThrowValueError(self):
