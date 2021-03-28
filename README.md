@@ -6,6 +6,8 @@ A python project to persist the airodump-ng output to a mongo database
 #### Version 1.0.0
 ##### *All the instructions below are for Ubuntu 18.04. It is currently the only OS that airodb has been tested on.
 
+See also the related [airodb-analyzer](https://github.com/jeremydumais/airodb-analyzer) project to do the data analysis. 
+
 ## Installation
 
 ```bash
